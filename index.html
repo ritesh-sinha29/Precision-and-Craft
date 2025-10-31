@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Advanced CSS Hero - Design Craftsmanship</title>
+  <style>
+    /* ============================================
+       RESET & BASE STYLES
+       ============================================ */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* ============================================
+       CSS VARIABLES - THEMING SYSTEM
+       Monochromatic purple color scheme
+       ============================================ */
+    :root {
+      /* Monochromatic Purple Palette */
+      --primary: #8b5cf6;        /* Main purple */
+      --accent: #a78bfa;         /* Light purple */
+      --secondary: #6d28d9;      /* Deep purple */
+      --tertiary: #c4b5fd;       /* Very light purple */
+      --bg-dark: #1e1b2e;        /* Deep purple-tinted dark */
+      --bg-light: #2d2640;       /* Medium purple-tinted dark */
+      --text-primary: #f3f0ff;   /* Very light purple tint */
+      --text-secondary: #c4b5fd; /* Light purple for secondary text */
+      
+      /* Spacing System */
+      --spacing-xs: 0.5rem;
+      --spacing-sm: 1rem;
+      --spacing-md: 1.5rem;
+      --spacing-lg: 2rem;
+      --spacing-xl: 3rem;
+      --spacing-2xl: 4rem;
+      
+      /* Typography */
+      --font-size-base: 1rem;
+      --font-size-lg: 1.125rem;
+      --font-size-xl: 1.5rem;
+      --font-size-2xl: 2rem;
+      --font-size-3xl: 3rem;
+      
+      /* Layout */
+      --max-width: 1200px;
+      --border-radius: 1rem;
+      
+      /* Shadows */
+      --shadow-soft: 0 10px 40px rgba(139, 92, 246, 0.2);
+      --shadow-glow: 0 0 30px rgba(139, 92, 246, 0.3);
+    }
+
+    /* ============================================
+       BODY & GLOBAL STYLES
+       ============================================ */
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+      background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-light) 100%);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ============================================
+       LOGO/COMPANY NAME
+       Fixed position top left corner
+       ============================================ */
+    .logo {
+      position: fixed;
+      top: var(--spacing-lg);
+      left: var(--spacing-lg);
+      z-index: 1000;
+      font-family: 'Georgia', 'Times New Roman', serif;
+      font-size: 1.5rem;
+      font-weight: 400;
+      color: #374151;
+      letter-spacing: 0.05em;
+      opacity: 0;
+      animation: fadeInLogo 1s ease-out 0.5s forwards;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    @keyframes fadeInLogo {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 767px) {
+      .logo {
+        top: var(--spacing-md);
+        left: var(--spacing-md);
+        font-size: 1.25rem;
+      }
+    }
+
+    /* ============================================
+       HERO SECTION - CSS GRID LAYOUT
+       Two-column layout that stacks on mobile
+       ============================================ */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--spacing-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Background ambient glow effect */
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(
+        circle at 30% 40%,
+        rgba(139, 92, 246, 0.15) 0%,
+        transparent 50%
+      );
+      animation: ambientGlow 15s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes ambientGlow {
+      0%, 100% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0.5;
+      }
+      50% {
+        transform: translate(10%, 10%) scale(1.1);
+        opacity: 0.8;
+      }
+    }
+
+    /* Main container with CSS Grid */
+    .hero__container {
+      width: 100%;
+      max-width: var(--max-width);
+      display: grid;
+      grid-template-columns: 1fr; /* Single column on mobile */
+      gap: var(--spacing-xl);
+      align-items: center;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* Desktop: Two-column layout */
+    @media (min-width: 768px) {
+      .hero__container {
+        grid-template-columns: 1fr 1fr; /* Equal columns */
+        gap: var(--spacing-2xl);
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .hero__container {
+        grid-template-columns: 1.2fr 1fr; /* Slightly favor content */
+      }
+    }
+
+    /* ============================================
+       LEFT COLUMN - TEXT CONTENT
+       ============================================ */
+    .hero__content {
+      animation: slideInLeft 1s ease-out;
+    }
+
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    /* Hero heading with gradient text */
+    .hero__title {
+      font-size: clamp(2rem, 5vw, var(--font-size-3xl));
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: var(--spacing-md);
+      letter-spacing: -0.02em;
+    }
+
+    .hero__title-gradient {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--tertiary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: inline-block;
+      position: relative;
+    }
+
+    /* Animated underline */
+    .hero__title-gradient::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      border-radius: 2px;
+      animation: expandWidth 1.5s ease-out;
+    }
+
+    @keyframes expandWidth {
+      from {
+        width: 0%;
+      }
+      to {
+        width: 100%;
+      }
+    }
+
+    /* Subtitle paragraph */
+    .hero__subtitle {
+      font-size: clamp(1rem, 2vw, var(--font-size-lg));
+      color: var(--text-secondary);
+      margin-bottom: var(--spacing-lg);
+      max-width: 500px;
+      line-height: 1.8;
+    }
+
+    /* CTA Button with hover effects */
+    .hero__cta {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--spacing-xs);
+      padding: var(--spacing-md) var(--spacing-xl);
+      font-size: var(--font-size-base);
+      font-weight: 600;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: var(--text-primary);
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: var(--shadow-soft);
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Shimmer effect on button */
+    .hero__cta::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+      );
+      transition: left 0.5s;
+    }
+
+    .hero__cta:hover::before {
+      left: 100%;
+    }
+
+    .hero__cta:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-glow);
+    }
+
+    .hero__cta:active {
+      transform: translateY(-1px);
+    }
+
+    /* Arrow icon */
+    .hero__cta-arrow {
+      display: inline-block;
+      transition: transform 0.3s ease;
+    }
+
+    .hero__cta:hover .hero__cta-arrow {
+      transform: translateX(5px);
+    }
+
+    /* ============================================
+       RIGHT COLUMN - CSS/SVG ILLUSTRATION
+       Pure CSS shapes + inline SVG
+       ============================================ */
+    .hero__illustration {
+      position: relative;
+      width: 100%;
+      height: 400px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: slideInRight 1s ease-out;
+    }
+
+    @media (min-width: 768px) {
+      .hero__illustration {
+        height: 500px;
+      }
+    }
+
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    /* ============================================
+       PURE CSS SHAPES - Floating Orbs
+       Using gradients and blur for organic feel
+       ============================================ */
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(30px);
+      opacity: 0.7;
+      animation: floatOrb 8s ease-in-out infinite;
+    }
+
+    /* Orb 1 - Large purple */
+    .orb--1 {
+      width: 250px;
+      height: 250px;
+      background: radial-gradient(
+        circle at 30% 30%,
+        var(--primary),
+        var(--secondary)
+      );
+      top: 10%;
+      left: 10%;
+      animation-delay: 0s;
+    }
+
+    /* Orb 2 - Medium purple */
+    .orb--2 {
+      width: 180px;
+      height: 180px;
+      background: radial-gradient(
+        circle at 70% 70%,
+        var(--accent),
+        var(--primary)
+      );
+      bottom: 15%;
+      right: 10%;
+      animation-delay: 2s;
+    }
+
+    /* Orb 3 - Small accent */
+    .orb--3 {
+      width: 120px;
+      height: 120px;
+      background: radial-gradient(
+        circle at 50% 50%,
+        var(--tertiary),
+        var(--accent)
+      );
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation-delay: 4s;
+    }
+
+    /* FLOATING ANIMATION - Organic movement */
+    @keyframes floatOrb {
+      0%, 100% {
+        transform: translate(0, 0) scale(1);
+      }
+      25% {
+        transform: translate(15px, -20px) scale(1.05);
+      }
+      50% {
+        transform: translate(-10px, 10px) scale(0.95);
+      }
+      75% {
+        transform: translate(20px, 15px) scale(1.02);
+      }
+    }
+
+    /* ============================================
+       GEOMETRIC SVG ILLUSTRATION
+       Inline SVG with animated elements
+       ============================================ */
+    .svg-illustration {
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 5;
+    }
+
+    @media (min-width: 768px) {
+      .svg-illustration {
+        width: 400px;
+        height: 400px;
+      }
+    }
+
+    /* Rotate SVG container */
+    .svg-illustration svg {
+      width: 100%;
+      height: 100%;
+      animation: rotateSVG 30s linear infinite;
+    }
+
+    @keyframes rotateSVG {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Pulsing animation for SVG circle */
+    .svg-pulse {
+      animation: pulse 3s ease-in-out infinite;
+      transform-origin: center;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 0.6;
+        transform: scale(1);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1.05);
+      }
+    }
+
+    /* Dashed path animation */
+    .svg-dash {
+      stroke-dasharray: 1000;
+      stroke-dashoffset: 1000;
+      animation: drawPath 4s ease-in-out infinite;
+    }
+
+    @keyframes drawPath {
+      0%, 100% {
+        stroke-dashoffset: 1000;
+      }
+      50% {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    /* ============================================
+       DECORATIVE GRID PATTERN
+       Pure CSS background pattern
+       ============================================ */
+    .grid-pattern {
+      position: absolute;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(139, 92, 246, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(139, 92, 246, 0.1) 1px, transparent 1px);
+      background-size: 50px 50px;
+      opacity: 0.3;
+      animation: gridFloat 8s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes gridFloat {
+      from {
+        background-position: 0 0;
+      }
+      to {
+        background-position: 50px 50px;
+      }
+    }
+
+    /* ============================================
+       REVIEWS SECTION - ANIMATED TESTIMONIALS
+       Continuous horizontal scroll with gradient background
+       ============================================ */
+    .reviews {
+      position: relative;
+      width: 100%;
+      padding: var(--spacing-2xl) var(--spacing-lg);
+      overflow: hidden;
+      /* Light grey gradient background */
+      background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 50%, #f1f5f9 100%);
+    }
+
+    /* Animated diagonal gradient glow overlay - soft grey accents */
+    .reviews::before {
+      content: '';
+      position: absolute;
+      top: -100%;
+      left: -100%;
+      width: 300%;
+      height: 300%;
+      background: radial-gradient(
+        ellipse at 20% 50%,
+        rgba(148, 163, 184, 0.15) 0%,
+        transparent 40%
+      ),
+      radial-gradient(
+        ellipse at 80% 50%,
+        rgba(203, 213, 225, 0.12) 0%,
+        transparent 40%
+      );
+      /* Diagonal movement: 20s duration for smooth, subtle motion */
+      animation: diagonalGlowShift 20s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Keyframes: moves background glow diagonally across the section */
+    @keyframes diagonalGlowShift {
+      0%, 100% {
+        transform: translate(0%, 0%) rotate(0deg);
+        opacity: 0.6;
+      }
+      50% {
+        transform: translate(15%, 10%) rotate(5deg);
+        opacity: 1;
+      }
+    }
+
+    /* Secondary animated radial pattern for depth - subtle grey tones */
+    .reviews::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: 
+        radial-gradient(circle at 70% 30%, rgba(226, 232, 240, 0.5) 0%, transparent 50%),
+        radial-gradient(circle at 30% 70%, rgba(241, 245, 249, 0.5) 0%, transparent 50%);
+      animation: rotateRadialPattern 25s linear infinite;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    @keyframes rotateRadialPattern {
+      from {
+        transform: rotate(0deg) scale(1.2);
+      }
+      to {
+        transform: rotate(360deg) scale(1.2);
+      }
+    }
+
+    /* Container with max-width constraint */
+    .reviews__container {
+      position: relative;
+      z-index: 10;
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    /* Section title with gradient text */
+    .reviews__title {
+      font-size: clamp(1.75rem, 4vw, var(--font-size-2xl));
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: var(--spacing-xl);
+      letter-spacing: -0.02em;
+      /* Dark slate gradient for contrast on light background */
+      background: linear-gradient(135deg, #1e293b 0%, #334155 50%, #475569 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      /* Fade in from bottom on scroll */
+      opacity: 0;
+      animation: fadeInUp 1s ease-out 0.3s forwards;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Carousel track wrapper - handles overflow masking */
+    .reviews__carousel {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      /* Gradient fade masks on left/right edges */
+      mask-image: linear-gradient(
+        to right,
+        transparent 0%,
+        black 10%,
+        black 90%,
+        transparent 100%
+      );
+      -webkit-mask-image: linear-gradient(
+        to right,
+        transparent 0%,
+        black 10%,
+        black 90%,
+        transparent 100%
+      );
+    }
+
+    /* Scrolling track - contains all cards in a horizontal row */
+    .reviews__track {
+      display: flex;
+      gap: var(--spacing-lg);
+      /* Animation: infinite horizontal scroll, 15s for fast continuous motion */
+      animation: scrollReviews 15s linear infinite;
+      /* Pause animation on hover for accessibility */
+      will-change: transform;
+    }
+
+    .reviews__track:hover {
+      animation-play-state: paused;
+    }
+
+    /* Keyframes: translates track to create marquee effect */
+    @keyframes scrollReviews {
+      from {
+        transform: translateX(0);
+      }
+      to {
+        /* Move by 50% to create seamless loop (duplicate content handles this) */
+        transform: translateX(-50%);
+      }
+    }
+
+    /* Individual review card */
+    .review-card {
+      flex: 0 0 auto;
+      width: 350px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.98) 100%);
+      border: 1px solid rgba(203, 213, 225, 0.6);
+      border-radius: 20px;
+      padding: var(--spacing-lg);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.05);
+      backdrop-filter: blur(20px);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      /* Fade in with staggered delay as cards appear */
+      opacity: 0;
+      animation: fadeInCard 0.8s ease-out forwards;
+      overflow: hidden;
+    }
+
+    /* Shimmer effect on cards */
+    .review-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(148, 163, 184, 0.15),
+        transparent
+      );
+      animation: shimmer 3s infinite;
+    }
+
+    @keyframes shimmer {
+      0% {
+        left: -100%;
+      }
+      100% {
+        left: 100%;
+      }
+    }
+
+    /* Staggered animation delays for initial load (first 6 cards) */
+    .review-card:nth-child(1) { animation-delay: 0.1s; }
+    .review-card:nth-child(2) { animation-delay: 0.2s; }
+    .review-card:nth-child(3) { animation-delay: 0.3s; }
+    .review-card:nth-child(4) { animation-delay: 0.4s; }
+    .review-card:nth-child(5) { animation-delay: 0.5s; }
+    .review-card:nth-child(6) { animation-delay: 0.6s; }
+
+    @keyframes fadeInCard {
+      from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* Hover effect: scale up and enhance glow */
+    .review-card:hover {
+      transform: translateY(-12px) scale(1.05);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 
+                  0 8px 20px rgba(99, 102, 241, 0.2),
+                  inset 0 1px 0 rgba(255, 255, 255, 1);
+      border-color: rgba(129, 140, 248, 0.4);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(248, 250, 252, 1) 100%);
+    }
+
+    /* Card header: avatar + name/role */
+    .review-card__header {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-md);
+      margin-bottom: var(--spacing-md);
+    }
+
+    /* Avatar circle with gradient border */
+    .review-card__avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #6366f1, #a855f7, #ec4899);
+      padding: 3px;
+      flex-shrink: 0;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    }
+
+    .review-card:hover .review-card__avatar {
+      transform: scale(1.15) rotate(10deg);
+      box-shadow: 0 8px 20px rgba(99, 102, 241, 0.5);
+    }
+
+    /* Avatar image inside gradient ring */
+    .review-card__avatar-img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #6366f1;
+      text-shadow: 0 2px 4px rgba(99, 102, 241, 0.2);
+    }
+
+    /* Name and role info */
+    .review-card__info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .review-card__name {
+      font-size: var(--font-size-lg);
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 0.25rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-shadow: none;
+    }
+
+    .review-card__role {
+      font-size: 0.875rem;
+      color: #6366f1;
+      opacity: 0.9;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-weight: 500;
+    }
+
+    /* Star rating */
+    .review-card__stars {
+      display: flex;
+      gap: 0.25rem;
+      margin-bottom: var(--spacing-sm);
+      font-size: 1rem;
+      color: #fbbf24;
+      filter: drop-shadow(0 2px 4px rgba(251, 191, 36, 0.3));
+    }
+
+    /* Testimonial text */
+    .review-card__text {
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: #475569;
+      /* Multi-line ellipsis for consistent card heights */
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Responsive: smaller cards on mobile */
+    @media (max-width: 767px) {
+      .review-card {
+        width: 280px;
+        padding: var(--spacing-md);
+      }
+
+      .reviews {
+        padding: var(--spacing-xl) var(--spacing-sm);
+      }
+
+      .reviews__title {
+        margin-bottom: var(--spacing-lg);
+      }
+
+      .review-card__avatar {
+        width: 48px;
+        height: 48px;
+      }
+
+      .review-card__text {
+        -webkit-line-clamp: 3;
+      }
+
+      /* Stack illustration above content on mobile */
+      .hero__illustration {
+        order: -1;
+        height: 300px;
+        margin-bottom: var(--spacing-md);
+      }
+
+      /* Scale down orbs */
+      .orb--1 {
+        width: 180px;
+        height: 180px;
+      }
+
+      .orb--2 {
+        width: 130px;
+        height: 130px;
+      }
+
+      .orb--3 {
+        width: 90px;
+        height: 90px;
+      }
+
+      .svg-illustration {
+        width: 250px;
+        height: 250px;
+      }
+    }
+
+    /* Tablet: medium card width */
+    @media (min-width: 768px) and (max-width: 1023px) {
+      .review-card {
+        width: 320px;
+      }
+    }
+
+    /* ============================================
+       ACCESSIBILITY - REDUCED MOTION
+       Respect user preferences
+       ============================================ */
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+
+      /* Stop marquee scroll for reduced motion users */
+      .reviews__track {
+        animation: none;
+      }
+    }
+
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: var(--spacing-md) var(--spacing-lg);
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: var(--text-primary);
+      border-radius: var(--border-radius);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+      font-weight: 600;
+      z-index: 10000;
+      transform: translateX(400px);
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      max-width: 90%;
+      width: auto;
+      min-width: 280px;
+    }
+
+    .notification--show {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero__container">
+      <div class="hero__content">
+        <h1 id="hero-title" class="hero__title">
+          Build Digital Products with
+          <span class="hero__title-gradient">Precision & Craft</span>
+        </h1>
+        
+        <p class="hero__subtitle">
+          We blend cutting-edge technology with timeless design principles 
+          to create experiences that are both beautiful and functional. 
+          Every pixel matters, every interaction counts.
+        </p>
+        
+        <button class="hero__cta" aria-label="Start your project">
+          Start Your Project
+          <span class="hero__cta-arrow">→</span>
+        </button>
+      </div>
+
+      <div class="hero__illustration" aria-hidden="true">
+        <div class="orb orb--1"></div>
+        <div class="orb orb--2"></div>
+        <div class="orb orb--3"></div>
+        <div class="grid-pattern"></div>
+
+        <div class="svg-illustration">
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#8b5cf6;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#c4b5fd;stop-opacity:1" />
+              </linearGradient>
+              
+              <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#6d28d9;stop-opacity:0.8" />
+                <stop offset="100%" style="stop-color:#a78bfa;stop-opacity:0.8" />
+              </linearGradient>
+            </defs>
+
+            <polygon 
+              points="100,20 170,60 170,140 100,180 30,140 30,60"
+              fill="none"
+              stroke="url(#grad1)"
+              stroke-width="2"
+              opacity="0.6"
+            />
+
+            <circle 
+              cx="100" 
+              cy="100" 
+              r="50" 
+              fill="url(#grad2)" 
+              class="svg-pulse"
+            />
+
+            <circle 
+              cx="100" 
+              cy="100" 
+              r="70" 
+              fill="none"
+              stroke="url(#grad1)"
+              stroke-width="2"
+              stroke-dasharray="5,5"
+              class="svg-dash"
+            />
+
+            <path
+              d="M 100 60 L 130 100 L 100 140 L 70 100 Z"
+              fill="rgba(139, 92, 246, 0.1)"
+              stroke="#a78bfa"
+              stroke-width="1"
+            />
+
+            <circle cx="100" cy="60" r="5" fill="#c4b5fd" opacity="0.8" />
+            <circle cx="130" cy="100" r="5" fill="#8b5cf6" opacity="0.8" />
+            <circle cx="100" cy="140" r="5" fill="#a78bfa" opacity="0.8" />
+            <circle cx="70" cy="100" r="5" fill="#6d28d9" opacity="0.8" />
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Notification for button functionality -->
+  <div class="notification" id="notification">
+    Thank you for your interest! We'll contact you soon.
+  </div>
+
+  <section class="reviews" aria-labelledby="reviews-title">
+    <div class="reviews__container">
+      <h2 id="reviews-title" class="reviews__title">
+        What Our Clients Say
+      </h2>
+
+      <div class="reviews__carousel">
+        <div class="reviews__track">
+          <article class="review-card">
+            <div class="review-card__header">
+              <div class="review-card__avatar">
+                <div class="review-card__avatar-img">SM</div>
+              </div>
+              <div class="review-card__info">
+                <h3 class="review-card__name">Sarah Mitchell</h3>
+                <p class="review-card__role">CEO, TechFlow</p>
+              </div>
+            </div>
+            <div class="review-card__stars">★★★★★</div>
+            <p class="review-card__text">
+              Working with this team transformed our digital presence. Their attention to detail and innovative approach exceeded all expectations. The results speak for themselves.
+            </p>
+          </article>
+
+          <article class="review-card">
+            <div class="review-card__header">
+              <div class="review-card__avatar">
+                <div class="review-card__avatar-img">JC</div>
+              </div>
+              <div class="review-card__info">
+                <h3 class="review-card__name">James Chen</h3>
+                <p class="review-card__role">Founder, NexGen AI</p>
+              </div>
+            </div>
+            <div class="review-card__stars">★★★★★</div>
+            <p class="review-card__text">
+              Exceptional craftsmanship and dedication. They didn't just build a product—they built an experience that our users absolutely love. Highly recommend!
+            </p>
+          </article>
+
+          <article class="review-card">
+            <div class="review-card__header">
+              <div class="review-card__avatar">
+                <div class="review-card__avatar-img">EP</div>
+              </div>
+              <div class="review-card__info">
+                <h3 class="review-card__name">Emma Patel</h3>
+                <p class="review-card__role">Design Lead, Pixel Studio</p>
+              </div>
+            </div>
+            <div class="review-card__stars">★★★★★</div>
+            <p class="review-card__text">
+              The perfect blend of creativity and technical excellence. Every detail was thoughtfully executed, resulting in a stunning final product that exceeded our vision.
+            </p>
+          </article>
+
+          <article class="review-card">
+            <div class="review-card__header">
+              <div class="review-card__avatar">
+                <div class="review-card__avatar-img">MA</div>
+              </div>
+              <div class="review-card__info">
+                <h3 class="review-card__name">Michael Anderson</h3>
+                <p class="review-card__role">CTO, DataVerse</p>
+              </div>
+            </div>
+            <div class="review-card__stars">★★★★★</div>
+            <p class="review-card__text">
+              Outstanding technical expertise combined with seamless communication. They delivered ahead of schedule and the quality was impeccable. True professionals.
+            </p>
+          </article>
+
+          <article class="review-card">
+            <div class="review-card__header">
+              <div class="review-card__avatar">
+                <div class="review-card__avatar-img">LK</div>
+              </div>
+              <div class="review-card__info">
+                <h3 class="review-card__name">Lisa Kim</h3>
+                <p class="review-card__role">VP Product, CloudSync</p>
+              </div>
+            </div>
+            <div class="review-card__stars">★★★★★</div>
+            <p class="review-card__text">
+              Their innovative solutions and user-centric approach completely revolutionized our platform. The team's dedication and expertise are unmatched in the industry.
+            </p>
+          </article>
+
+          <article class="review-card">
+            <div class="review-card__header">
+              <div class="review-card__avatar">
+                <div class="review-card__avatar-img">RT</div>
+              </div>
+              <div class="review-card__info">
+                <h3 class="review-card__name">Robert Taylor</h3>
+                <p class="review-card__role">Director, FinTech Pro</p>
+              </div>
+            </div>
+            <div class="review-card__stars">★★★★★</div>
+            <p class="review-card__text">
+              From concept to launch, the entire process was smooth and collaborative. The final product exceeded our expectations and has driven tremendous growth for our business.
+            </p>
+          </article>
+
+          <article class="review-card">
+            <div class="review-card__header">
+              <div class="review-card__avatar">
+                <div class="review-card__avatar-img">DW</div>
+              </div>
+              <div class="review-card__info">
+                <h3 class="review-card__name">David Wong</h3>
+                <p class="review-card__role">Head of Innovation, StartupHub</p>
+              </div>
+            </div>
+            <div class="review-card__stars">★★★★★</div>
+            <p class="review-card__text">
+              Incredible talent and professionalism. They took our abstract ideas and transformed them into a sleek, functional platform that our community loves using every day.
+            </p>
+          </article>
+
+          <article class="review-card">
+            <div class="review-card__header">
+              <div class="review-card__avatar">
+                <div class="review-card__avatar-img">AN</div>
+              </div>
+              <div class="review-card__info">
+                <h3 class="review-card__name">Aisha Nasser</h3>
+                <p class="review-card__role">CMO, BrandForge</p>
+              </div>
+            </div>
+            <div class="review-card__stars">★★★★★</div>
+            <p class="review-card__text">
+              They understood our brand vision perfectly and delivered a digital experience that resonates with our audience. The attention to aesthetic detail is phenomenal.
+            </p>
+          </article>
+
+          <article class="review-card">
+            <div class="review-card__header">
+              <div class="review-card__avatar">
+                <div class="review-card__avatar-img">KJ</div>
+              </div>
+              <div class="review-card__info">
+                <h3 class="review-card__name">Kevin Johnson</h3>
+                <p class="review-card__role">CEO, MediCore Health</p>
+              </div>
+            </div>
+            <div class="review-card__stars">★★★★★</div>
+            <p class="review-card__text">
+              Working in healthcare requires precision and reliability. This team delivered both, creating a HIPAA-compliant solution that's elegant and user-friendly.
+            </p>
+          </article>
+
+          <article class="review-card">
+            <div class="review-card__header">
+              <div class="review-card__avatar">
+                <div class="review-card__avatar-img">SC</div>
+              </div>
+              <div class="review-card__info">
+                <h3 class="review-card__name">Sophia Cruz</h3>
+                <p class="review-card__role">Product Manager, EduTech Solutions</p>
+              </div>
+            </div>
+            <div class="review-card__stars">★★★★★</div>
+            <p class="review-card__text">
+              Our students and teachers love the new platform! The intuitive design and smooth performance have dramatically improved engagement and learning outcomes.
+            </p>
+          </article>
+
+          <!-- DUPLICATE SET FOR SEAMLESS LOOP -->
+          <article class="review-card">
+            <div class="review-card__header">
+              <div class="review-card__avatar">
+                <div class="review-card__avatar-img">SM</div>
+              </div>
+              <div class="review-card__info">
+                <h3 class="review-card__name">Sarah Mitchell</h3><script>
+    // Make the CTA button functional
+    document.addEventListener("DOMContentLoaded", function() {
+      const ctaButton = document.querySelector(".hero__cta");
+      const notification = document.getElementById("notification");
+
+      ctaButton.addEventListener("click", function() {
+        // Show notification
+        notification.classList.add("notification--show");
+
+        // Hide notification after 3 seconds
+        setTimeout(function() {
+          notification.classList.remove("notification--show");
+        }, 3000);
+      });
+    });
+  </script>
