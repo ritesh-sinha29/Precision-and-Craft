@@ -59,8 +59,8 @@
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/advanced-css-hero.git
-   cd advanced-css-hero
+   git clone https://github.com/ritesh-sinha29/precision-and-craft.git
+   cd precesion-and-craft
    ```
 
 2. **Open in browser**
@@ -78,7 +78,7 @@ That's it! No npm install, no build process—just open and explore.
 ## 📂 Project Structure
 
 ```
-advanced-css-hero/
+precision-and-craft/
 │
 ├── index.html              # Main HTML file with inline CSS and JS
 ├── README.md              # This file
@@ -239,7 +239,7 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
 ## 👤 Author
 
 **[Ritesh Sinha]**
-- GitHub: [@yourusername](https://github.com/ritesh-sinha29)
+- GitHub: [@ritesh-sinha29](https://github.com/ritesh-sinha29)
 - Website: [yourwebsite.com](https://yourwebsite.com)
 
 ## 🙏 Acknowledgments
