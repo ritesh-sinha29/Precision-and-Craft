@@ -240,7 +240,7 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
 
 **[Ritesh Sinha]**
 - GitHub: [@ritesh-sinha29](https://github.com/ritesh-sinha29)
-- Website: [yourwebsite.com](https://yourwebsite.com)
+- Website: [precision-and-craft](https://precision-and-craft-three.vercel.app/)
 
 ## 🙏 Acknowledgments
 
